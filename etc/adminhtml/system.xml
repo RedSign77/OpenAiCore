@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="webtechsolutions" translate="label" sortOrder="500">
+            <label>WebtechSolutions</label>
+        </tab>
+        <section id="aicore" translate="label" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>AI Central Settings</label>
+            <tab>webtechsolutions</tab>
+            <resource>WebtechSolutions_AiCore::config</resource>
+
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="api_key" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>OpenAI API Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="organization_id" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Organization ID</label>
+                    <comment>Optional. Your OpenAI organization identifier.</comment>
+                </field>
+                <field id="model" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Default AI Model</label>
+                    <source_model>WebtechSolutions\AiCore\Model\Config\Source\AiModel</source_model>
+                </field>
+                <field id="models_synced_at" translate="label" type="label" sortOrder="45" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>AI Models Last Synced</label>
+                    <comment>Models are refreshed automatically every Monday at 03:00. Use the button below to sync immediately.</comment>
+                </field>
+                <field id="sync_models_button" translate="label" type="button" sortOrder="46" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Sync AI Models Now</label>
+                    <frontend_model>WebtechSolutions\AiCore\Block\Adminhtml\Config\SyncModelsButton</frontend_model>
+                </field>
+                <!-- Hidden storage field for serialized model list - not shown in UI -->
+                <field id="available_models" translate="label" type="hidden" sortOrder="47" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Available Models (internal)</label>
+                </field>
+                <field id="api_endpoint" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API Endpoint</label>
+                    <comment>Leave blank to use default: https://api.openai.com/v1/chat/completions</comment>
+                </field>
+                <field id="timeout" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Request Timeout (seconds)</label>
+                    <comment>HTTP request timeout in seconds (default: 60)</comment>
+                    <validate>validate-digits validate-greater-than-zero</validate>
+                </field>
+            </group>
+
+            <group id="logging" translate="label" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Logging</label>
+                <field id="logging_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Request Logging</label>
+                    <comment>Log all API requests and responses to var/log/magesentinel_ai_core.log</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+        </section>
+    </system>
+</config>

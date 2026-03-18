@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <aicore>
+            <general>
+                <enabled>1</enabled>
+                <model>gpt-4o-mini</model>
+                <available_models></available_models>
+                <models_synced_at></models_synced_at>
+                <api_endpoint>https://api.openai.com/v1/chat/completions</api_endpoint>
+                <timeout>60</timeout>
+            </general>
+            <logging>
+                <logging_enabled>1</logging_enabled>
+            </logging>
+        </aicore>
+    </default>
+</config>

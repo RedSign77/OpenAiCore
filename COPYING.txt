@@ -1,0 +1,28 @@
+AICore - Commercial License Agreement
+
+Copyright (c) 2026Webtech Solutions. All rights reserved.
+
+1. GRANT OF LICENSE
+This software is licensed, not sold. Webtech Solutions grants you a
+non-exclusive, non-transferable license to use this module on a
+single Magento installation (one production instance and associated
+development environments).
+
+2. RESTRICTIONS
+- You may not sublicense, resell, or distribute the source code.
+- You may not use the software for more than one production website
+  without purchasing additional licenses.
+- You may not remove or alter any copyright notices or branding
+  within the code.
+
+3. MODIFICATIONS
+You are allowed to modify the source code for your own use to fit
+your specific requirements, but the modified code remains subject
+to the terms of this license.
+
+4. WARRANTY
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR
+ANY CLAIM, DAMAGES, OR OTHER LIABILITY.
+
+Contact: https://webtech-solutions.hu

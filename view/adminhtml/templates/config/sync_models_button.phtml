@@ -1,0 +1,10 @@
+<?php
+/** @var \WebtechSolutions\AiCore\Block\Adminhtml\Config\SyncModelsButton $block */
+declare(strict_types=1);
+?>
+<button type="button"
+        class="action-default scalable"
+        onclick="window.location.href='<?= $block->escapeUrl($block->getSyncUrl()) ?>'"
+        style="margin-top:4px">
+    <?= $block->escapeHtml(__('Sync AI Models Now')) ?>
+</button>

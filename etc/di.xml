@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Interface → implementation binding -->
+    <preference for="WebtechSolutions\AiCore\Api\AiClientInterface"
+                type="WebtechSolutions\AiCore\Model\Service\OpenAiClient"/>
+
+    <!-- Virtual logger for the module -->
+    <virtualType name="WebtechSolutions\AiCore\Logger\Virtual"
+                 type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="name" xsi:type="string">magesentinel_ai_core</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">WebtechSolutions\AiCore\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Inject virtual logger into OpenAiClient -->
+    <type name="WebtechSolutions\AiCore\Model\Service\OpenAiClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">WebtechSolutions\AiCore\Logger\Virtual</argument>
+        </arguments>
+    </type>
+
+    <!-- Filesystem driver for the log handler -->
+    <type name="WebtechSolutions\AiCore\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+
+</config>

@@ -1,0 +1,28 @@
+{
+    "name": "webtechsolutions/module-ai-core",
+    "description": "Centralized OpenAI API client base module for Magento 2",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "proprietary"
+    ],
+    "authors": [
+        {
+            "name": "Zoltán Németh",
+            "email": "info@webtech-solutions.hu",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "magento/framework": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "WebtechSolutions\\AiCore\\": ""
+        }
+    }
+}
