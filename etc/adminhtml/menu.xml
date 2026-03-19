@@ -2,11 +2,16 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
+        <add id="WebtechSolutions_AiCore::webtech_solutions"
+             title="Webtech Solutions"
+             module="WebtechSolutions_AiCore"
+             sortOrder="55"
+             resource="WebtechSolutions_AiCore::config"/>
         <add id="WebtechSolutions_AiCore::aicore_config"
              title="AI Core"
              module="WebtechSolutions_AiCore"
              sortOrder="5"
-             parent="WebtechSolutions_OpenAiMonitor::magesentinelpro"
+             parent="WebtechSolutions_AiCore::webtech_solutions"
              action="adminhtml/system_config/edit/section/aicore"
              resource="WebtechSolutions_AiCore::config"/>
     </menu>

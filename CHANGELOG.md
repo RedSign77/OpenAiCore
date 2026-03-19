@@ -1,5 +1,9 @@
 # Changelog — WebtechSolutions_AiCore
 
+## 2026-03-19
+
+- Added "Webtech Solutions" top-level admin menu entry (`WebtechSolutions_AiCore::webtech_solutions`, sortOrder 55); AI Core config link moved under it; MageSentinelPro and MageInsightPro now nest under this shared parent
+
 ## 2026-03-18
 
 - Moved AI model sync controls (AI Models Last Synced label, Sync AI Models Now button, available_models hidden storage) from MageSentinelPro to AI Central Settings; Default AI Model select now refreshes dynamically from synced model list; added admin route and SyncModelsButton block to AiCore module
