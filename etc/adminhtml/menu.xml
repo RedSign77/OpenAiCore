@@ -14,5 +14,12 @@
              parent="WebtechSolutions_AiCore::webtech_solutions"
              action="adminhtml/system_config/edit/section/aicore"
              resource="WebtechSolutions_AiCore::config"/>
+        <add id="WebtechSolutions_AiCore::ai_logs"
+             title="AI Logs"
+             module="WebtechSolutions_AiCore"
+             sortOrder="10"
+             parent="WebtechSolutions_AiCore::webtech_solutions"
+             action="aicore/aiLog/index"
+             resource="WebtechSolutions_AiCore::ai_logs"/>
     </menu>
 </config>

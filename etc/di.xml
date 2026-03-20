@@ -17,10 +17,11 @@
         </arguments>
     </virtualType>
 
-    <!-- Inject virtual logger into OpenAiClient -->
+    <!-- Inject virtual logger and DB log repository into OpenAiClient -->
     <type name="WebtechSolutions\AiCore\Model\Service\OpenAiClient">
         <arguments>
             <argument name="logger" xsi:type="object">WebtechSolutions\AiCore\Logger\Virtual</argument>
+            <argument name="aiLogRepository" xsi:type="object">WebtechSolutions\AiCore\Model\AiLogRepository</argument>
         </arguments>
     </type>
 

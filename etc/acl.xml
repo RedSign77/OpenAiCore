@@ -13,6 +13,9 @@
                         </resource>
                     </resource>
                 </resource>
+                <resource id="WebtechSolutions_AiCore::ai_logs"
+                          title="AI Logs"
+                          sortOrder="55"/>
             </resource>
         </resources>
     </acl>

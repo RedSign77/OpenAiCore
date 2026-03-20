@@ -24,16 +24,18 @@ namespace WebtechSolutions\AiCore\Model\Service;
 use Psr\Log\LoggerInterface;
 use WebtechSolutions\AiCore\Api\AiClientInterface;
 use WebtechSolutions\AiCore\Helper\Config;
+use WebtechSolutions\AiCore\Model\AiLogRepository;
 use WebtechSolutions\AiCore\Model\Sanitizer;
 use Magento\Framework\HTTP\Client\CurlFactory;
 
 class OpenAiClient implements AiClientInterface
 {
     public function __construct(
-        protected readonly CurlFactory     $curlFactory,
-        protected readonly Config          $config,
-        protected readonly Sanitizer       $sanitizer,
-        protected readonly LoggerInterface $logger
+        protected readonly CurlFactory      $curlFactory,
+        protected readonly Config           $config,
+        protected readonly Sanitizer        $sanitizer,
+        protected readonly LoggerInterface  $logger,
+        protected readonly AiLogRepository  $aiLogRepository
     ) {
     }
 
@@ -96,20 +98,44 @@ class OpenAiClient implements AiClientInterface
         // 5. HTTP error handling
         if ($status === 429) {
             $this->logger->warning('AiCore: OpenAI rate limit reached (HTTP 429). Retry later.');
+            $this->aiLogRepository->log(
+                model: $model,
+                prompt: $prompt,
+                requestData: $cleanData,
+                responseData: null,
+                httpStatus: 429,
+                status: 'rate_limited',
+                errorMessage: 'OpenAI rate limit reached (HTTP 429).'
+            );
             return [];
         }
 
         if ($status === 401) {
             $this->logger->error('AiCore: OpenAI API key rejected (HTTP 401). Check key validity and expiry.');
+            $this->aiLogRepository->log(
+                model: $model,
+                prompt: $prompt,
+                requestData: $cleanData,
+                responseData: null,
+                httpStatus: 401,
+                status: 'auth_error',
+                errorMessage: 'OpenAI API key rejected (HTTP 401).'
+            );
             return [];
         }
 
         if ($status !== 200) {
-            $this->logger->error(sprintf(
-                'AiCore: OpenAI API returned HTTP %d. Body: %s',
-                $status,
-                substr($body, 0, 500)
-            ));
+            $errorMsg = sprintf('OpenAI API returned HTTP %d. Body: %s', $status, substr($body, 0, 500));
+            $this->logger->error('AiCore: ' . $errorMsg);
+            $this->aiLogRepository->log(
+                model: $model,
+                prompt: $prompt,
+                requestData: $cleanData,
+                responseData: null,
+                httpStatus: $status,
+                status: 'error',
+                errorMessage: $errorMsg
+            );
             return [];
         }
 
@@ -117,21 +143,47 @@ class OpenAiClient implements AiClientInterface
         $response = json_decode($body, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            $this->logger->error('AiCore: OpenAI response is not valid JSON: ' . substr($body, 0, 500));
+            $errorMsg = 'OpenAI response is not valid JSON: ' . substr($body, 0, 500);
+            $this->logger->error('AiCore: ' . $errorMsg);
+            $this->aiLogRepository->log(
+                model: $model,
+                prompt: $prompt,
+                requestData: $cleanData,
+                responseData: null,
+                httpStatus: 200,
+                status: 'error',
+                errorMessage: $errorMsg
+            );
             return [];
         }
 
         // 7. Log usage
+        $usage            = $response['usage'] ?? [];
+        $promptTokens     = (int)($usage['prompt_tokens'] ?? 0);
+        $completionTokens = (int)($usage['completion_tokens'] ?? 0);
+        $totalTokens      = (int)($usage['total_tokens'] ?? 0);
+
         if ($this->config->isLoggingEnabled()) {
-            $usage = $response['usage'] ?? [];
             $this->logger->info(sprintf(
                 'AiCore: Query successful. Model: %s | Prompt tokens: %d | Completion tokens: %d | Total: %d',
                 $model,
-                (int)($usage['prompt_tokens'] ?? 0),
-                (int)($usage['completion_tokens'] ?? 0),
-                (int)($usage['total_tokens'] ?? 0)
+                $promptTokens,
+                $completionTokens,
+                $totalTokens
             ));
         }
+
+        $this->aiLogRepository->log(
+            model: $model,
+            prompt: $prompt,
+            requestData: $cleanData,
+            responseData: $response,
+            httpStatus: 200,
+            status: 'success',
+            promptTokens: $promptTokens,
+            completionTokens: $completionTokens,
+            totalTokens: $totalTokens
+        );
 
         return $response;
     }

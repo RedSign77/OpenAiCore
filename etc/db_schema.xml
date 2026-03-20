@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="webtechsolutions_aicore_log" resource="default" engine="innodb"
+           comment="AI Core - OpenAI Request/Response Log">
+        <column xsi:type="int" name="log_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Log ID"/>
+        <column xsi:type="varchar" name="module" nullable="true" length="128" comment="Caller Module"/>
+        <column xsi:type="varchar" name="model" nullable="true" length="64" comment="AI Model Used"/>
+        <column xsi:type="mediumtext" name="prompt" nullable="true" comment="System Prompt"/>
+        <column xsi:type="mediumtext" name="request_data" nullable="true" comment="Sanitized Request Data (JSON)"/>
+        <column xsi:type="mediumtext" name="response_data" nullable="true" comment="Response Data (JSON)"/>
+        <column xsi:type="smallint" name="http_status" padding="5" unsigned="true" nullable="true"
+                comment="HTTP Status Code"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="16" comment="success|error|rate_limited|auth_error"/>
+        <column xsi:type="int" name="prompt_tokens" padding="10" unsigned="true" nullable="true"
+                comment="Prompt Token Count"/>
+        <column xsi:type="int" name="completion_tokens" padding="10" unsigned="true" nullable="true"
+                comment="Completion Token Count"/>
+        <column xsi:type="int" name="total_tokens" padding="10" unsigned="true" nullable="true"
+                comment="Total Token Count"/>
+        <column xsi:type="decimal" name="estimated_cost" scale="8" precision="14" unsigned="false" nullable="true"
+                comment="Estimated USD Cost"/>
+        <column xsi:type="varchar" name="error_message" nullable="true" length="1024" comment="Error Message"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="log_id"/>
+        </constraint>
+        <index referenceId="WEBTECHSOLUTIONS_AICORE_LOG_CREATED_AT" indexType="btree">
+            <column name="created_at"/>
+        </index>
+        <index referenceId="WEBTECHSOLUTIONS_AICORE_LOG_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
+    </table>
+</schema>

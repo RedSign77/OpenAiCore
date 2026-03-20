@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">webtechsolutions_aicore_log_listing.webtechsolutions_aicore_log_listing_data_source</item>
+        </item>
+    </argument>
+
+    <settings>
+        <spinner>webtechsolutions_aicore_log_listing_columns</spinner>
+        <deps>
+            <dep>webtechsolutions_aicore_log_listing.webtechsolutions_aicore_log_listing_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="webtechsolutions_aicore_log_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">log_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>WebtechSolutions_AiCore::ai_logs</aclResource>
+        <dataProvider class="WebtechSolutions\AiCore\Ui\DataProvider\AiLog\Grid"
+                      name="webtechsolutions_aicore_log_listing_data_source">
+            <settings>
+                <requestFieldName>log_id</requestFieldName>
+                <primaryFieldName>log_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <paging name="listing_paging"/>
+        <filters name="listing_filters"/>
+    </listingToolbar>
+
+    <columns name="webtechsolutions_aicore_log_listing_columns">
+
+        <column name="log_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date"
+                component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Date</label>
+            </settings>
+        </column>
+
+        <column name="module">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Module</label>
+            </settings>
+        </column>
+
+        <column name="model">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Model</label>
+            </settings>
+        </column>
+
+        <column name="status">
+            <settings>
+                <filter>select</filter>
+                <options class="WebtechSolutions\AiCore\Model\Config\Source\AiLogStatus"/>
+                <dataType>select</dataType>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+
+        <column name="http_status">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">HTTP</label>
+            </settings>
+        </column>
+
+        <column name="total_tokens">
+            <settings>
+                <label translate="true">Tokens</label>
+            </settings>
+        </column>
+
+        <column name="estimated_cost" class="WebtechSolutions\AiCore\Ui\Component\Listing\Column\EstimatedCost">
+            <settings>
+                <label translate="true">Est. Cost</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="error_message">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Error</label>
+            </settings>
+        </column>
+
+        <actionsColumn name="actions"
+                       class="WebtechSolutions\AiCore\Ui\Component\Listing\Column\Actions"
+                       component="WebtechSolutions_AiCore/js/grid/columns/actions">
+            <settings>
+                <indexField>log_id</indexField>
+                <label translate="true">Action</label>
+            </settings>
+        </actionsColumn>
+
+    </columns>
+</listing>

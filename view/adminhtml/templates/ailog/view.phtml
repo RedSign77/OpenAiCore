@@ -1,0 +1,113 @@
+<?php
+/** @var \WebtechSolutions\AiCore\Block\Adminhtml\AiLog\View $block */
+declare(strict_types=1);
+
+$log = $block->getLog();
+
+if (!$log): ?>
+    <div class="message message-error"><?= $block->escapeHtml(__('No data found.')) ?></div>
+    <?php return;
+endif;
+
+$status        = (string)$log->getData('status');
+$model         = (string)$log->getData('model');
+$module        = (string)$log->getData('module');
+$httpStatus    = (int)$log->getData('http_status');
+$promptTokens  = (int)$log->getData('prompt_tokens');
+$compTokens    = (int)$log->getData('completion_tokens');
+$totalTokens   = (int)$log->getData('total_tokens');
+$cost          = $log->getData('estimated_cost');
+$createdAt     = (string)$log->getData('created_at');
+$errorMessage  = (string)$log->getData('error_message');
+$prompt        = (string)$log->getData('prompt');
+$requestData   = $block->formatJson($log->getData('request_data'));
+$responseData  = $block->formatJson($log->getData('response_data'));
+?>
+
+<style>
+.ai-log-card { background:#fff; border:1px solid #e0e0e0; border-radius:4px; padding:16px 20px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+.ai-log-card h3 { margin:0 0 10px; font-size:15px; color:#303030; border-bottom:1px solid #f0f0f0; padding-bottom:8px; }
+.ai-log-badge { display:inline-block; padding:2px 10px; border-radius:3px; font-size:12px; font-weight:bold; }
+.ai-log-meta { display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; }
+.ai-log-meta-row { font-size:13px; color:#555; }
+.ai-log-meta-row strong { color:#303030; }
+.ai-log-code { background:#f5f5f5; border:1px solid #ddd; border-radius:3px; padding:10px 14px; font-family:monospace; font-size:12px; white-space:pre-wrap; word-break:break-word; max-height:300px; overflow-y:auto; margin-top:6px; }
+</style>
+
+<div style="max-width:900px;margin:20px auto;padding:0 16px">
+
+    <!-- Header -->
+    <div class="ai-log-card">
+        <h3><?= $block->escapeHtml(__('Overview')) ?></h3>
+        <div class="ai-log-meta">
+            <div class="ai-log-meta-row">
+                <strong><?= $block->escapeHtml(__('Log ID')) ?>:</strong> #<?= (int)$log->getId() ?>
+            </div>
+            <div class="ai-log-meta-row">
+                <strong><?= $block->escapeHtml(__('Date')) ?>:</strong> <?= $block->escapeHtml($createdAt) ?>
+            </div>
+            <div class="ai-log-meta-row">
+                <strong><?= $block->escapeHtml(__('Status')) ?>:</strong>
+                <span class="ai-log-badge" style="<?= $block->escapeHtml($block->getStatusStyle($status)) ?>">
+                    <?= $block->escapeHtml(strtoupper($status)) ?>
+                </span>
+            </div>
+            <div class="ai-log-meta-row">
+                <strong><?= $block->escapeHtml(__('HTTP')) ?>:</strong> <?= $httpStatus ?>
+            </div>
+            <?php if ($model !== ''): ?>
+            <div class="ai-log-meta-row">
+                <strong><?= $block->escapeHtml(__('Model')) ?>:</strong> <?= $block->escapeHtml($model) ?>
+            </div>
+            <?php endif; ?>
+            <?php if ($module !== ''): ?>
+            <div class="ai-log-meta-row">
+                <strong><?= $block->escapeHtml(__('Module')) ?>:</strong> <?= $block->escapeHtml($module) ?>
+            </div>
+            <?php endif; ?>
+            <?php if ($totalTokens > 0): ?>
+            <div class="ai-log-meta-row">
+                <strong><?= $block->escapeHtml(__('Tokens')) ?>:</strong>
+                <?= number_format($totalTokens) ?>
+                <small style="color:#888">(<?= number_format($promptTokens) ?> + <?= number_format($compTokens) ?>)</small>
+            </div>
+            <?php endif; ?>
+            <?php if ($cost !== null): ?>
+            <div class="ai-log-meta-row">
+                <strong><?= $block->escapeHtml(__('Est. Cost')) ?>:</strong>
+                <span style="font-family:monospace">$<?= number_format((float)$cost, 6) ?></span>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php if ($errorMessage !== ''): ?>
+        <div style="margin-top:12px;padding:8px 12px;background:#fff3e0;border-left:3px solid #f57c00;border-radius:2px;font-size:13px;color:#d32f2f">
+            <?= $block->escapeHtml($errorMessage) ?>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- Prompt -->
+    <?php if ($prompt !== ''): ?>
+    <div class="ai-log-card">
+        <h3><?= $block->escapeHtml(__('System Prompt')) ?></h3>
+        <div class="ai-log-code"><?= $block->escapeHtml($prompt) ?></div>
+    </div>
+    <?php endif; ?>
+
+    <!-- Request -->
+    <?php if ($requestData !== '—'): ?>
+    <div class="ai-log-card">
+        <h3><?= $block->escapeHtml(__('Request Data (sanitized)')) ?></h3>
+        <div class="ai-log-code"><?= $block->escapeHtml($requestData) ?></div>
+    </div>
+    <?php endif; ?>
+
+    <!-- Response -->
+    <?php if ($responseData !== '—'): ?>
+    <div class="ai-log-card">
+        <h3><?= $block->escapeHtml(__('Response Data')) ?></h3>
+        <div class="ai-log-code"><?= $block->escapeHtml($responseData) ?></div>
+    </div>
+    <?php endif; ?>
+
+</div>

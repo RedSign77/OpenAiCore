@@ -1,5 +1,10 @@
 # Changelog — WebtechSolutions_AiCore
 
+## 2026-03-20
+
+- AI Logs grid: fixed empty columns (removed conflicting childDefaults), removed oversized text columns (prompt/request/response) from grid — full data visible in modal popup; added Est. Cost column with USD formatting; added View action button opening a slide-over modal with full log details (overview, prompt, request, response); added cron job `aicore_clean_ai_logs` running daily at 02:00 UTC deleting records older than 7 days; added `estimated_cost` DB column with per-model token pricing (gpt-4o-mini, gpt-4o, gpt-4-turbo, gpt-3.5-turbo, o1)
+- Centralized AI request/response logging: minden OpenAI kérés és válasz (sikeres, hibás, rate-limited, auth-hiba) bekerül a `webtechsolutions_aicore_log` adatbázis táblába; az "AI Logs" adminisztrációs menüpont (Webtech Solutions > AI Logs) UI grid segítségével jeleníti meg a naplóbejegyzéseket szűrési és lapozási lehetőséggel
+
 ## 2026-03-19
 
 - Added "Webtech Solutions" top-level admin menu entry (`WebtechSolutions_AiCore::webtech_solutions`, sortOrder 55); AI Core config link moved under it; MageSentinelPro and MageInsightPro now nest under this shared parent
