@@ -24,7 +24,7 @@ namespace WebtechSolutions\AiCore\Controller\Adminhtml\Models;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\Redirect;
-use WebtechSolutions\OpenAiMonitor\Model\OpenAi\ModelSync;
+use WebtechSolutions\AiCore\Model\OpenAi\ModelSync;
 
 class Sync extends Action
 {
@@ -43,10 +43,7 @@ class Sync extends Action
 
         if ($result !== null) {
             $this->messageManager->addSuccessMessage(
-                (string)__(
-                    'AI models synced successfully. %1 models available.',
-                    count($result)
-                )
+                (string)__('AI models synced successfully. %1 models available.', count($result))
             );
         } else {
             $this->messageManager->addErrorMessage(
