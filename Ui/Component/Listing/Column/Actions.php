@@ -23,6 +23,11 @@ use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
 
+/**
+ * Reusable "View" row-action column. The view route and the entity id
+ * field name are configurable via UI Component XML <argument> nodes so
+ * this single class can serve every grid that needs a view-modal link.
+ */
 class Actions extends Column
 {
     public function __construct(
@@ -30,7 +35,9 @@ class Actions extends Column
         UiComponentFactory $uiComponentFactory,
         private readonly UrlInterface $urlBuilder,
         array $components = [],
-        array $data = []
+        array $data = [],
+        private readonly string $viewRoute = 'aicore/aiLog/viewModal',
+        private readonly string $idField = 'log_id'
     ) {
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
@@ -45,14 +52,14 @@ class Actions extends Column
             $item[$this->getData('name')] = [
                 'view' => [
                     'href'     => $this->urlBuilder->getUrl(
-                        'aicore/aiLog/viewModal',
-                        ['id' => $item['log_id']]
+                        $this->viewRoute,
+                        ['id' => $item[$this->idField]]
                     ),
                     'label'    => __('View'),
                     'callback' => [
                         'provider' => '${ $.parentName }',
                         'target'   => 'viewRecord',
-                        'params'   => ['id' => $item['log_id']],
+                        'params'   => ['id' => $item[$this->idField]],
                     ],
                 ],
             ];

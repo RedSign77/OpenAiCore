@@ -1,5 +1,9 @@
 # Changelog — WebtechSolutions_AiCore
 
+## 2026-07-27
+
+- Cleaned up duplicated AI model sync logic between AI Core and AI Monitor: the default-model dropdown now reads from the single shared model-sync source instead of a second copy; the "Sync AI Models Now" button, the row-level "View" action, and the estimated-cost grid column now share one implementation across both modules instead of two nearly-identical copies
+
 ## 2026-03-20
 
 - AI Logs grid: fixed empty columns (removed conflicting childDefaults), removed oversized text columns (prompt/request/response) from grid — full data visible in modal popup; added Est. Cost column with USD formatting; added View action button opening a slide-over modal with full log details (overview, prompt, request, response); added cron job `aicore_clean_ai_logs` running daily at 02:00 UTC deleting records older than 7 days; added `estimated_cost` DB column with per-model token pricing (gpt-4o-mini, gpt-4o, gpt-4-turbo, gpt-3.5-turbo, o1)

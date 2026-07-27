@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * MageSentinel / MageInsight Pro
  *
@@ -21,24 +20,8 @@ declare(strict_types=1);
 
 namespace WebtechSolutions\AiCore\Block\Adminhtml\Config;
 
-use Magento\Backend\Block\Template\Context;
-use Magento\Config\Block\System\Config\Form\Field;
-use Magento\Framework\Data\Form\Element\AbstractElement;
-
-class SyncModelsButton extends Field
+class SyncModelsButton extends AbstractSyncModelsButton
 {
-    protected $_template = 'WebtechSolutions_AiCore::config/sync_models_button.phtml';
-
-    public function __construct(Context $context, array $data = [])
-    {
-        parent::__construct($context, $data);
-    }
-
-    protected function _getElementHtml(AbstractElement $element): string
-    {
-        return $this->_toHtml();
-    }
-
     public function getSyncUrl(): string
     {
         return $this->getUrl('aicore/models/sync');

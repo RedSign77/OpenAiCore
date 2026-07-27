@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * MageSentinel / MageInsight Pro
  *
@@ -21,38 +20,29 @@ declare(strict_types=1);
 
 namespace WebtechSolutions\AiCore\Model\Config\Source;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\OptionSourceInterface;
-use Magento\Framework\Serialize\SerializerInterface;
+use WebtechSolutions\AiCore\Model\OpenAi\ModelSync;
 
 class AiModel implements OptionSourceInterface
 {
     private const FALLBACK_MODELS = [
-        ['value' => 'gpt-4o-mini', 'label' => 'GPT-4o Mini (recommended)'],
-        ['value' => 'gpt-4o',      'label' => 'GPT-4o'],
+        ['value' => 'gpt-4o-mini',  'label' => 'GPT-4o Mini (recommended)'],
+        ['value' => 'gpt-4o',       'label' => 'GPT-4o'],
+        ['value' => 'gpt-4-turbo',  'label' => 'GPT-4 Turbo'],
+        ['value' => 'gpt-3.5-turbo','label' => 'GPT-3.5 Turbo'],
     ];
 
-    private const CONFIG_MODELS_LIST = 'aicore/general/available_models';
-
     public function __construct(
-        private readonly ScopeConfigInterface $scopeConfig,
-        private readonly SerializerInterface $serializer
+        private readonly ModelSync $modelSync
     ) {
     }
 
     public function toOptionArray(): array
     {
-        $raw = $this->scopeConfig->getValue(self::CONFIG_MODELS_LIST);
+        $stored = $this->modelSync->getStoredModels();
 
-        if (!empty($raw)) {
-            try {
-                $models = $this->serializer->unserialize($raw);
-                if (is_array($models) && !empty($models)) {
-                    return $models;
-                }
-            } catch (\Exception $e) {
-                // fall through to static list
-            }
+        if (!empty($stored)) {
+            return $stored;
         }
 
         return self::FALLBACK_MODELS;

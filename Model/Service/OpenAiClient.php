@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * AiCore
  *
@@ -21,12 +20,12 @@ declare(strict_types=1);
 
 namespace WebtechSolutions\AiCore\Model\Service;
 
+use Magento\Framework\HTTP\Client\CurlFactory;
 use Psr\Log\LoggerInterface;
 use WebtechSolutions\AiCore\Api\AiClientInterface;
 use WebtechSolutions\AiCore\Helper\Config;
 use WebtechSolutions\AiCore\Model\AiLogRepository;
 use WebtechSolutions\AiCore\Model\Sanitizer;
-use Magento\Framework\HTTP\Client\CurlFactory;
 
 class OpenAiClient implements AiClientInterface
 {

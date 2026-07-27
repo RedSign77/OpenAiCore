@@ -112,6 +112,14 @@
         <actionsColumn name="actions"
                        class="WebtechSolutions\AiCore\Ui\Component\Listing\Column\Actions"
                        component="WebtechSolutions_AiCore/js/grid/columns/actions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="idField" xsi:type="string">log_id</item>
+                    <item name="modalId" xsi:type="string">aicore-log-modal-container</item>
+                    <item name="modalTitle" xsi:type="string" translate="true">AI Log Details</item>
+                    <item name="modalClass" xsi:type="string">aicore-log-modal</item>
+                </item>
+            </argument>
             <settings>
                 <indexField>log_id</indexField>
                 <label translate="true">Action</label>

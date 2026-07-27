@@ -6,15 +6,28 @@ define([
 ], function (Actions, $, modal, $t) {
     'use strict';
 
+    /**
+     * Shared "view in slide-over modal" row-action column.
+     * Consumers configure idField / modalId / modalTitle / modalClass
+     * via the UI Component XML <settings> so a single implementation
+     * serves every grid that opens a record in a slide-over.
+     */
     return Actions.extend({
+        defaults: {
+            idField: 'entity_id',
+            modalId: 'aicore-view-modal-container',
+            modalTitle: '',
+            modalClass: 'aicore-view-modal'
+        },
 
         /**
          * Called by the callback defined in Actions.php prepareDataSource.
          */
         viewRecord: function (params) {
             var items = this.source && this.source.get('data.items') || [];
-            var item  = items.find(function (i) { return +i.log_id === +params.id; });
-            var href  = item && item.actions && item.actions.view && item.actions.view.href;
+            var idField = this.idField;
+            var item = items.find(function (i) { return +i[idField] === +params.id; });
+            var href = item && item.actions && item.actions.view && item.actions.view.href;
 
             if (href) {
                 this._openSlideModal(href);
@@ -37,8 +50,8 @@ define([
         },
 
         _openSlideModal: function (url) {
-            var modalId = 'aicore-log-modal-container';
-            var $wrap   = $('#' + modalId);
+            var modalId = this.modalId;
+            var $wrap = $('#' + modalId);
 
             if (!$wrap.length) {
                 $wrap = $('<div>', { id: modalId }).appendTo('body');
@@ -50,8 +63,8 @@ define([
 
             var options = {
                 type: 'slide',
-                title: $t('AI Log Details'),
-                modalClass: 'aicore-log-modal',
+                title: this.modalTitle ? $t(this.modalTitle) : $t('Details'),
+                modalClass: this.modalClass,
                 responsive: true,
                 innerScroll: true,
                 buttons: [{

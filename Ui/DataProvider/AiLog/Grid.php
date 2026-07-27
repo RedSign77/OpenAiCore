@@ -19,7 +19,6 @@ declare(strict_types=1);
 namespace WebtechSolutions\AiCore\Ui\DataProvider\AiLog;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;
-use WebtechSolutions\AiCore\Model\ResourceModel\AiLog\Collection;
 use WebtechSolutions\AiCore\Model\ResourceModel\AiLog\CollectionFactory;
 
 class Grid extends AbstractDataProvider

@@ -32,4 +32,12 @@
         </arguments>
     </type>
 
+    <!-- Explicit config for the shared "view" row-action column on this module's own grid -->
+    <type name="WebtechSolutions\AiCore\Ui\Component\Listing\Column\Actions">
+        <arguments>
+            <argument name="viewRoute" xsi:type="string">aicore/aiLog/viewModal</argument>
+            <argument name="idField" xsi:type="string">log_id</argument>
+        </arguments>
+    </type>
+
 </config>

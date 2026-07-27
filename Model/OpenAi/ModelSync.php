@@ -32,7 +32,8 @@ class ModelSync
         private readonly SerializerInterface  $serializer,
         private readonly AiCoreConfig         $aiCoreConfig,
         private readonly LoggerInterface      $logger
-    ) {}
+    ) {
+    }
 
     /**
      * Fetch available models from OpenAI, store them, and handle fallback.
@@ -147,7 +148,7 @@ class ModelSync
         $filtered = array_unique($filtered);
         usort($filtered, [$this, 'compareModelIds']);
 
-        return array_map(static fn(string $id) => ['value' => $id, 'label' => $id], $filtered);
+        return array_map(static fn (string $id) => ['value' => $id, 'label' => $id], $filtered);
     }
 
     private function isChatModel(string $id): bool
