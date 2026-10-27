@@ -2,7 +2,7 @@
     "name": "webtechsolutions/module-ai-core",
     "description": "Centralized OpenAI API client base module for Magento 2",
     "type": "magento2-module",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "license": [
         "proprietary"
     ],
